@@ -1,20 +1,42 @@
 <!doctype html>
 <html lang="en">
-<head>
+  <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Add or Remove Input Fields Dynamically using jQuery - MyNotePaper</title>
 
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-</head>
-<body>
-    <div class="container"style="max-width: 700px;">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-        <div class="text-center" style="margin: 20px 0px 20px 0px;">
-            <a href="https://www.mynotepaper.com/" target="_blank"><img src="https://i.imgur.com/hHZjfUq.png"></a><br>
-            <span class="text-secondary">Add or Remove Input Fields Dynamically using jQuery</span>
-        </div>
+    <title>Category</title>
+  </head>
+  <body class="p-3 mb-2 bg-light text-dark">
+      <!----------------------------NAVBAR------------------------------------->
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+  <a class="navbar-brand" href="Category.html">Add Category</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item">
+        <a class="nav-link" href="Admin(Vendor Verification).html">Vendor Verification</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="Brand.html">Add Brand</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!------------------Category--------------------------->
+<div class="container text-center" style="margin-top: 2%"> 
+  <h3 class="text-secondary" > Add Category </h3>
+</div>
+
+<!---------------------------------------------------------------------------->
+ <div class="container"style="max-width: 700px;margin-top: 2%">
 
         <form method="POST" action="/admin/product">
 
@@ -24,47 +46,92 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text" id="basic-addon1">Category</span>
                         </div>
-                        <input type="text" class="form-control" name="Category" placeholder="Category" aria-label="Username" aria-describedby="basic-addon1">
+                        <input type="text" class="form-control" list="category" name="Category" placeholder="Category" aria-label="Username" aria-describedby="basic-addon1">
+                        <datalist id="category">
+                          <option class="container" value="Electronics"/>
+                        </datalist>
                       </div>
                 </div>
                 <div class="col-lg-12">
-                    <div id="inputFormRow">
-                        <div class="input-group mb-3">
-                            <input type="text" name="subcategory" class="form-control m-input" placeholder="Enter title" autocomplete="off">
-                            <div class="input-group-append">
-                                <button id="removeRow" type="button" class="btn btn-danger">Remove</button>
-                            </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1">Sub Category</span>
                         </div>
-                    </div>
-
-                    <div id="newRow"></div>
-                    <button id="addRow" type="button" class="btn btn-info">Add Row</button>
+                        <input type="text" class="form-control" name="subcategory" placeholder="Sub-Category" aria-label="Username" aria-describedby="basic-addon1">
+                      </div>
                 </div>
-                
             </div>
-            <button>submit</button>
+            <button class="btn btn-primary container" id="addcategory" style="margin-top: 2%">Submit</button>
+          </div>
         </form>
     </div>
 
-    <script type="text/javascript">
-        // add row
-        $("#addRow").click(function () {
-            var html = '';
-            html += '<div id="inputFormRow">';
-            html += '<div class="input-group mb-3">';
-            html += '<input type="text" name="subcategory" class="form-control m-input" placeholder="Enter title" autocomplete="off">';
-            html += '<div class="input-group-append">';
-            html += '<button id="removeRow" type="button" class="btn btn-danger">Remove</button>';
-            html += '</div>';
-            html += '</div>';
+    <div class="container text-center">
+      <h3 class="container text-secondary">Existing</h3>
+    </div>
 
-            $('#newRow').append(html);
-        });
+    </tbody>
+</table>
+<table id= "myTable" class="table table-hover table-responsive-md" style="margin-top: 2%">
+  <thead>
+    <tr>
+      <th scope="col">Serial Number</th>
+      <th scope="col">Category</th>
+      <th scope="col">Subcategory</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% brand.forEach(function(b){ %>
+      <tr>
+        <th scope="row">1</th>
+        <td><%=b.brandname%></td>    
+      </tr>
+      <% }); %>
+      </tbody>
+</table>
+  <script>      
+      console.log("inside category")
 
-        // remove row
-        $(document).on('click', '#removeRow', function () {
-            $(this).closest('#inputFormRow').remove();
+
+        
+      $(document).ready(function(){
+          
+        $('#addcategory').click(function(e) {
+          e.preventDefault();
+          var category = ($('#category').val());
+          var subcategory = ($('#subcategory').val());
+          
+        $.ajax({
+          type: "POST",
+          url: '/admin/product' ,
+          contentType: "application/json",
+          processData: false,
+            data:  JSON.stringify({category : category}),
+            success: function(data) {
+              console.log(data)
+          }
+      }).done(function (data) {
+          console.log("OK");
+          $('#myTable tr:last').after('<tr id="addedbrandrow">      <th scope="row">1</th>      <td id="addedbrand" ></td>      </tr>');
+          $('#myTable tr:last td:last').html(data.brandname)         
+          // $('#addedbrand').html(data.brandname)
+          // $('#addedbrandrow').removeAttr("style");
+
+      }).fail(function ( jqXHR, textStatus, errorThrown ) {
+          console.log(jqXHR);
+          console.log(textStatus);
+          console.log(errorThrown);
         });
+      });
+    });
+
     </script>
-</body>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
 </html>
