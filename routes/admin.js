@@ -67,17 +67,23 @@ router.get("/vendor",(req,res,next)=>{
 router.post("/vendor",(req,res,next)=> {
   var approval = req.body.approval
   var userid = req.body.userid
-  if(approval=="1"){
+  
     UserModel.findById(userid,function(err,user){
       if(err) console.log(err);
       else{
+        if(approval=="1"){
         user.flag = true
-        
+        user.save()
+        res.send(user);
       }
-      user.save();
-      res.send(user);
+        else{
+          user.remove()
+          res.send("User Declined")
+        }
+      }
+
     });
-  }
+  
 })
 
 
@@ -119,13 +125,14 @@ router.get("/product", (req, res, next) => {
   console.log("inside product get");
   ProductModel.find().populate('subcategory').exec((err,product)=>{
     res.render("admin_product",{Category:product});
+    // res.send(product)
   })    
 });
 
 
-router.post("/product", async (req, res, next) => {
+router.post("/product", (req, res, next) => {
   console.log(req.body);
-  var c1 = req.body.Category;
+  var c1 = req.body.category;
   var s1 = req.body.subcategory;
   console.log(c1);
   console.log(s1);
@@ -164,6 +171,8 @@ router.post("/product", async (req, res, next) => {
               product.subcategory.push(subcategory._id)
               product.save();
               console.log(product)
+
+              res.send({c1,s1})
           }
         })
       });
