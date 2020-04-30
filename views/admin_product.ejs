@@ -46,9 +46,13 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text" id="basic-addon1">Category</span>
                         </div>
-                        <input type="text" class="form-control" list="category" name="Category" placeholder="Category" aria-label="Username" aria-describedby="basic-addon1">
-                        <datalist id="category">
-                          <option class="container" value="Electronics"/>
+                        <input type="text" class="form-control" list="categoryoption" name="Category" placeholder="Category" aria-label="Username" aria-describedby="basic-addon1">
+
+                        <datalist id="categoryoption">
+                          <% category.forEach(function(c){ %>
+                          <option class="container" value="<%=c.category%>"/>
+                          <% }); %>
+
                         </datalist>
                       </div>
                 </div>
@@ -61,7 +65,7 @@
                       </div>
                 </div>
             </div>
-            <button class="btn btn-primary container" id="addcategory" style="margin-top: 2%">Submit</button>
+            <button type="submit" class="btn btn-primary container" id="addcategory" style="margin-top: 2%">Submit</button>
           </div>
         </form>
     </div>
@@ -72,7 +76,7 @@
 
     </tbody>
 </table>
-<table id= "myTable" class="table table-hover table-responsive-md" style="margin-top: 2%">
+<table id= "mycategory" class="table table-hover table-responsive-md" style="margin-top: 2%">
   <thead>
     <tr>
       <th scope="col">Serial Number</th>
@@ -81,10 +85,11 @@
     </tr>
   </thead>
   <tbody>
-    <% brand.forEach(function(b){ %>
+    <% category.forEach(function(c){ %>
       <tr>
         <th scope="row">1</th>
-        <td><%=b.brandname%></td>    
+        <td><%=c.category%></td>
+        <td><%=c.subcategory%></td>    
       </tr>
       <% }); %>
       </tbody>
@@ -106,14 +111,15 @@
           url: '/admin/product' ,
           contentType: "application/json",
           processData: false,
-            data:  JSON.stringify({category : category}),
+            data:  JSON.stringify({category : category};{subcategory : subcategory}),
             success: function(data) {
               console.log(data)
           }
       }).done(function (data) {
           console.log("OK");
-          $('#myTable tr:last').after('<tr id="addedbrandrow">      <th scope="row">1</th>      <td id="addedbrand" ></td>      </tr>');
-          $('#myTable tr:last td:last').html(data.brandname)         
+          $('#mycategory tr:last').after('<tr><th scope="row">1</th><td>'+category.category+'</td><td>'+category.subcategory+'</td></tr>');
+          $('#categoryoption tr:last').after('<option class="container" value="'+category.category'" />');
+
           // $('#addedbrand').html(data.brandname)
           // $('#addedbrandrow').removeAttr("style");
 
@@ -123,7 +129,6 @@
           console.log(errorThrown);
         });
       });
-    });
 
     </script>
 

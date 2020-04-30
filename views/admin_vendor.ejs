@@ -128,7 +128,7 @@
             success: function(data) {
               console.log(data)
               $('#'+userid).remove()
-              if (approval="1") {
+              if (approval=="1") {
                  $('#approvedvendor tr:last').after('<tr> <th scope="row">1</th> <td>'+data.name+'</td> <td>'+data.email+'</td> <td>'+data.storename+'</td> <td>'+data.phoneno+'</td> </tr>');}
           }
       }).done(function (data) {
