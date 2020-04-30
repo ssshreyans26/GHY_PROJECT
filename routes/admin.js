@@ -55,7 +55,7 @@ router.post("/login", async (req, res, next) => {
 
 
 router.get("/vendor",(req,res,next)=>{
-  UserModel.find(function(err,pen_vendor){
+  UserModel.find(function(err,vendor){
     if (err) console.log(err);
     else{
       console.log(vendor)
@@ -75,9 +75,9 @@ router.post("/vendor",(req,res,next)=> {
         
       }
       user.save();
+      res.send(user);
     });
   }
-  res.send("yolo")
 })
 
 

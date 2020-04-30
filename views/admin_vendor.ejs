@@ -42,7 +42,7 @@
 <table class="table table-hover table-responsive-md" style="margin-top: 2%">
   <thead>
     <tr>
-      <th scope="col">#</th>
+      <th scope="col">Serial Number</th>
       <th scope="col">Name</th>
       <th scope="col">Email-address</th>
       <th scope="col">Store Name</th>
@@ -53,8 +53,9 @@
   </thead>
   <tbody>
     <% vendor.forEach(function(user){ %>
+      <% if(user.flag== false){ %>
       <form action="/vendor" method="GET">
-    <tr>
+    <tr id="<%=user._id%>" >
       <th scope="row">1</th>
       <td><%=user.name%></td>
       <td><%=user.email%></td>
@@ -63,9 +64,41 @@
         
       <td><a class="btn btn-primary"  role="button"  id="ACCEPT" data="<%=user._id%>">Accept</a></td>
       <td><a class="btn btn-danger"  role="button"   id="REJECT" data="<%=user._id%>">Decline</a></td>
-    
     </tr>
   </form>
+  <% } %>
+    <% }); %>
+  </tbody>
+</table>
+
+<!--------------------------------------------Accepted Vendor-------------------------->
+<div class="container text-center">
+  <h3 class="container text-Secondary">Accepted Vendor</h3>
+</div>
+
+<table class="table table-hover table-responsive-md" id="approvedvendor" style="margin-top: 2%">
+  <thead>
+    <tr>
+      <th scope="col">Serial Number</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email-address</th>
+      <th scope="col">Store Name</th>
+      <th scope="col">Phone Number</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% vendor.forEach(function(user){ %>
+      <% if(user.flag== true){ %>
+      <form action="/vendor" method="GET">
+    <tr id="<%=user._id%>" >
+      <th scope="row">1</th>
+      <td><%=user.name%></td>
+      <td><%=user.email%></td>
+      <td><%=user.storename%></td>
+      <td><%=user.phoneno%></td>
+    </tr>
+  </form>
+  <% } %>
     <% }); %>
   </tbody>
 </table>
@@ -84,7 +117,7 @@
 
         
       $(document).ready(function(){
-        function approval(approval, userid){ 
+        function approval(approval, userid){
          console.log(approval)
         $.ajax({
           type: "POST",
@@ -94,11 +127,12 @@
             data:  JSON.stringify({userid : userid,approval:approval}),
             success: function(data) {
               console.log(data)
+              $('#'+userid).remove()
+              if (approval="1") {
+                 $('#approvedvendor tr:last').after('<tr> <th scope="row">1</th> <td>'+data.name+'</td> <td>'+data.email+'</td> <td>'+data.storename+'</td> <td>'+data.phoneno+'</td> </tr>');}
           }
       }).done(function (data) {
-          console.log("OK");        
-          // $('#addedbrand').html(data.brandname)
-          // $('#addedbrandrow').removeAttr("style");
+          console.log("OK");       
 
       }).fail(function ( jqXHR, textStatus, errorThrown ) {
           console.log(jqXHR);
