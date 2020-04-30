@@ -39,6 +39,12 @@
     
   <button type="submit" class="container btn btn-primary" id="addbrand" style="margin-top: 2%">Add Brand</button>
 </form>
+  <!-- <tr style="display: none;" id="addedbrandrow">
+    <th scope="row">1</th>
+    <td id="addedbrand" ></td>    
+  </tr> -->
+</tbody>
+</table>
 <table id= "myTable" class="table table-hover table-responsive-md" style="margin-top: 2%">
   <thead>
     <tr>
@@ -47,44 +53,13 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Samsung</td>
-    </tr>
-  </tbody>
-</table>
-
-    <script type="text/javascript">
-        // add row
-        $("#addRow").click(function () {
-            var html = '';
-            html += '<div id="inputFormRow">';
-            html += '<div class="input-group mb-3">';
-            html += '<input type="text" name="brand" class="form-control m-input" placeholder="Enter title" autocomplete="off">';
-            html += '<div class="input-group-append">';
-            html += '<button id="removeRow" type="button" class="btn btn-danger">Remove</button>';
-            html += '</div>';
-            html += '</div>';
-
-            $('#newRow').append(html);
-        });
-
-        // remove row
-        $(document).on('click', '#removeRow', function () {
-            $(this).closest('#inputFormRow').remove();
-        });
-    </script>
     <% brand.forEach(function(b){ %>
-    <tr>
-      <th scope="row">1</th>
-      <td><%=b.brandname%></td>    
-    </tr>
-    <% }); %>
-    <!-- <tr style="display: none;" id="addedbrandrow">
-      <th scope="row">1</th>
-      <td id="addedbrand" ></td>    
-    </tr> -->
-  </tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td><%=b.brandname%></td>    
+      </tr>
+      <% }); %>
+      </tbody>
 </table>
 
 
