@@ -9,9 +9,7 @@ const router = express.Router();
 
 //When the user sends a post request to this route, passport authenticates the user based on the
 //middleware created previously
-router.post(
-  "/signup",
-  passport.authenticate("adminsignup", { session: false }),
+router.post("/signup",passport.authenticate("adminsignup", { session: false }),
   async (req, res, next) => {
     console.log("hey");
     res.json({
@@ -57,16 +55,31 @@ router.post("/login", async (req, res, next) => {
 
 
 router.get("/vendor",(req,res,next)=>{
-  UserModel.find(function(err,vendor){
+  UserModel.find(function(err,pen_vendor){
     if (err) console.log(err);
     else{
       console.log(vendor)
       res.render('admin_vendor',{vendor:vendor})
-    }
-    
+    }    
   })
-
 })
+
+router.post("/vendor",(req,res,next)=> {
+  var approval = req.body.approval
+  var userid = req.body.userid
+  if(approval=="1"){
+    UserModel.findById(userid,function(err,user){
+      if(err) console.log(err);
+      else{
+        user.flag = true
+        
+      }
+      user.save();
+    });
+  }
+  res.send("yolo")
+})
+
 
 router.get("/brand", (req, res, next) => {
   console.log("inside product get");
@@ -100,13 +113,6 @@ router.post("/brand",(req,res,next)=>{
           }
           
   });
-  // BrandModel.find(function(err,brand){
-  //   if (err) console.log(err);
-  //   if (brand) {
-  //     console.log(brand)
-  //         
-  //   }
-  // })
 })
 
 router.get("/product", (req, res, next) => {
@@ -119,11 +125,8 @@ router.get("/product", (req, res, next) => {
 
 router.post("/product", async (req, res, next) => {
   console.log(req.body);
-  var b1 = req.body.brand;
   var c1 = req.body.Category;
   var s1 = req.body.subcategory;
-
-  console.log(b1);
   console.log(c1);
   console.log(s1);
 
