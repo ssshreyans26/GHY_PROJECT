@@ -70,20 +70,19 @@ router.get("/vendor",(req,res,next)=>{
 
 router.get("/brand", (req, res, next) => {
   console.log("inside product get");
-  //   var userdetail = {  user : req.user,
-  //   token : req.query.secret_token
-  // }  
   BrandModel.find(function(err,brand){
     if (err) console.log(err);
     if (brand) {
+      console.log(brand)
       res.render("admin_brand",{brand:brand});    
     }
   })
   
 });
 
-router.post("brand",(req,res,next)=>{
-  var b1 = req.body.brand
+router.post("/brand",(req,res,next)=>{
+  var b1 = req.body.brandname
+  console.log(b1)
   BrandModel.findOne({ brandname: b1 }, function (err, brand) {
     if (err) console.log(err);
     if (brand) {
@@ -96,9 +95,18 @@ router.post("brand",(req,res,next)=>{
         if (err) console.log(err);
         console.log("New product created");
         console.log(brand);
+        res.send(brand);
       });
-    }
+          }
+          
   });
+  // BrandModel.find(function(err,brand){
+  //   if (err) console.log(err);
+  //   if (brand) {
+  //     console.log(brand)
+  //         
+  //   }
+  // })
 })
 
 router.get("/product", (req, res, next) => {
