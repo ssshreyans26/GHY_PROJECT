@@ -53,4 +53,18 @@ router.post('/login', async (req, res, next) => {
     })(req, res, next);
   });
   
+  router.get('/vendor_details',async(req,res,next) => {
+    res.render('vender_details');
+  });
+
+  router.post('/vendor_details',async(req,res,next)=>{
+
+  });
+
+  router.get('/vendor_products',async(req,res,next)=>{
+    res.render('vendor_product');
+  })
+
+
+
   module.exports = router;

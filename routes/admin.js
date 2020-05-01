@@ -116,8 +116,7 @@ router.post("/brand",(req,res,next)=>{
         console.log(brand);
         res.send(brand);
       });
-          }
-          
+          }          
   });
 })
 
