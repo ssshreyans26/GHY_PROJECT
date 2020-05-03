@@ -30,7 +30,26 @@ const UserSchema = new Schema({
     required : false,
     
   },
-  
+  gstno : {
+    type : String,
+    required : false,
+    
+  },
+  product:[{
+    categoryname: {
+      type:String,
+      required:false
+    },
+    
+      subcategoryname:[{
+        type:String,
+        required:false,
+        brand:[]
+      }],
+
+    
+    
+  }]  
 });
 
 UserSchema.pre('save', async function(next){

@@ -1,7 +1,10 @@
 const express = require('express');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-const UserModel = require('../model/model')
+const ProductModel = require("../model/product");
+const SubCategoryModel = require("../model/subcategory");
+const BrandModel = require("../model/brand.js");
+const UserModel = require('../model/model');
 const router = express.Router();
 
 //When the user sends a post request to this route, passport authenticates the user based on the
@@ -62,7 +65,11 @@ router.post('/login', async (req, res, next) => {
   });
 
   router.get('/vendor_products',async(req,res,next)=>{
-    res.render('vendor_product');
+    var brand = BrandModel.find()
+    ProductModel.find().populate('subcategory').exec((err,product)=>{
+      res.render('vendor_product',{Category:product},{brand:brand});
+    })
+    
   })
 
 
