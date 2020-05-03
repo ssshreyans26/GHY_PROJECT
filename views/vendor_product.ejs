@@ -26,58 +26,31 @@
     </ul>
   </div>
 </nav>
-      <!--------------------FORM--------------------->
-    <div class="container"style="max-width: 700px;margin-top: 2%">
 
-        <form method="POST" action="">
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="basic-addon1">Category</span>
-                        </div>
-                        <input type="text" class="form-control" list="categoryoption" id="category"  placeholder="Category" aria-label="Username" aria-describedby="basic-addon1">
-
-                        <datalist id="categoryoption">
-                          <option class="container" value="cd"/>
-
-                        </datalist>
-                      </div>
-                </div>
-                 <div class="col-lg-12">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="basic-addon1">Sub-Category</span>
-                        </div>
-                        <input type="text" class="form-control" list="categoryoption" id="subcategory"  placeholder="Sub-Category" aria-label="Username" aria-describedby="basic-addon1">
-
-                        <datalist id="categoryoption">
-                          <option class="container" value="cd"/>
-
-                        </datalist>
-                      </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="basic-addon1">Brand</span>
-                        </div>
-                        <input type="text" class="form-control" id="subcategory"  placeholder="Brand" aria-label="Username" aria-describedby="basic-addon1">
-                      </div>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary container" id="addcategory" style="margin-top: 2%">Submit</button>
-          </div>
-        </form>
-    </div>
+<div class="form-group container" style="margin-top: 2%">
+  <label for="categorylist">Select Category:</label>
+  <select class="form-control" id="categorylist">
+    <% Category.forEach(function(c){ %>
+         <option class="container" value="<%=c.categoryname%>"/>
+     <% }); %>
+  </select>
+    <label for="subcategorylist">Select Sub-Category:</label>
+  <select class="form-control" id="subcategorylist">
+    <% Subategory.forEach(function(s){ %>
+         <option class="container" value="<%=s.subcategoryname%>"/>
+      <% }); %>
+  </select>
+  <label for="brand">Brand:</label>
+  <input type="text" class="form-control" id="brand">
+  <button type="submit" class="btn btn-primary container" id="addbrand" style="margin-top: 2%">Add Brand</button>
+</div>
 
     <div class="container text-center" style="margin-top: 2%">
       <h3 class="text-secondary"> Existing Brands</h3>
     </div>
 
     <!--------------------------Table------------------------>
-    <table class="table table-hover table-responsive-sm text-center" style="margin-top: 2%">
+    <table class="table table-hover table-responsive-sm text-center " id="vendorproduct" style="margin-top: 2%">
   <thead>
     <tr>
       <th scope="col">#</th>
@@ -87,14 +60,58 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Electronics</td>
-      <td>Mobiles</td>
-      <td>Samsung</td>
-    </tr>
-  </tbody>
+    <% Category.forEach(function(c){ %>
+      <% c.subcategory.forEach(function(s){ %>
+      <% c.s.brand.forEach(function(b){ %>
+      <tr>
+        <th scope="row">1</th>
+        <td><%=c.categoryname%></td>
+        
+        <td><%=s.subcategoryname%></td>
+        <td><%=b.brand%></td>
+        <%})%> 
+        <%})%>   
+      </tr>
+      <% }); %>
+      </tbody>
 </table>
+
+<script>      
+      console.log("inside brand")
+
+
+        
+      $(document).ready(function(){
+          
+        $('#addbrand').click(function(e) {
+          e.preventDefault();
+          var brandname = ($('#brandname').val());
+          
+        $.ajax({
+          type: "POST",
+          url: '/vendor_products' ,
+          contentType: "application/json",
+          processData: false,
+            data:  JSON.stringify(Category:product,brand:brand}),
+            success: function(data) {
+              console.log(data)
+          }
+      }).done(function (data) {
+          console.log("OK");
+          $('#vendorproduct tr:last').after('<tr><th scope="row">1</th><td>'+data.c1+'</td><td>'+data.s1+'</td><td>'+data.b1+'</td></tr>');   
+          $('#categorylist option:last').after('<option class="container" value=' + data.c1 + '/>');
+          $('#subcategorylist option:last').after('<option class="container" value=' + data.s1 + '/>');     
+          // $('#addedbrand').html(data.brandname)
+          // $('#addedbrandrow').removeAttr("style");
+
+      }).fail(function ( jqXHR, textStatus, errorThrown ) {
+          console.log(jqXHR);
+          console.log(textStatus);
+          console.log(errorThrown);
+        });
+      });
+
+    </script>
 
 
     <!-- Optional JavaScript -->

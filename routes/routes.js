@@ -67,7 +67,7 @@ router.post('/login', async (req, res, next) => {
   router.get('/vendor_products',async(req,res,next)=>{
     var brand = BrandModel.find()
     ProductModel.find().populate('subcategory').exec((err,product)=>{
-      res.render('vendor_product',{Category:product},{brand:brand});
+      res.render('vendor_product',{Category:product,brand:brand});
     })
     
   })
