@@ -1,0 +1,83 @@
+    <!-- <label for="subcategorylist">Select Sub-Category:</label>
+  <select class="form-control" id="subcategorylist">
+    <% c.Subategory.forEach(function(s){ %>
+         <option class="container" value="<%=s.subcategoryname%>"/>
+      <% }); %>
+      
+  </select> -->
+  <label for="brand">Brand:</label>
+  <input type="text" class="form-control" id="brand">
+  <button type="submit" class="btn btn-primary container" id="addbrand" style="margin-top: 2%">Add Brand</button>
+</div>
+
+    <div class="container text-center" style="margin-top: 2%">
+      <h3 class="text-secondary"> Existing Brands</h3>
+    </div>
+
+    <!--------------------------Table------------------------>
+    <table class="table table-hover table-responsive-sm text-center " id="vendorproduct" style="margin-top: 2%">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Category </th>
+      <th scope="col">Sub-Category</th>
+      <th scope="col">Brand Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% Category.forEach(function(c){ %>
+      <% c.subcategory.forEach(function(s){ %>
+      <% c.s.brand.forEach(function(b){ %>
+      <tr>
+        <th scope="row">1</th>
+        <td><%=c.categoryname%></td>
+        
+        <td><%=s.subcategoryname%></td>
+        <td><%=b.brand%></td>
+        <%})%> 
+        <%})%>   
+      </tr>
+      <% }); %>
+      </tbody>
+</table>
+
+<script>      
+      console.log("inside brand")
+
+
+        
+      $(document).ready(function(){
+          
+        $('#addbrand').click(function(e) {
+          e.preventDefault();
+          var brandname = ($('#brandname').val());
+          
+        $.ajax({
+          type: "POST",
+          url: '/vendor_products' ,
+          contentType: "application/json",
+          processData: false,
+            data:  JSON.stringify(Category:product,brand:brand}),
+            success: function(data) {
+              console.log(data)
+          }
+      }).done(function (data) {
+          console.log("OK");
+          $('#vendorproduct tr:last').after('<tr><th scope="row">1</th><td>'+data.c1+'</td><td>'+data.s1+'</td><td>'+data.b1+'</td></tr>');   
+          $('#categorylist option:last').after('<option class="container" value=' + data.c1 + '/>');
+          $('#subcategorylist option:last').after('<option class="container" value=' + data.s1 + '/>');     
+          // $('#addedbrand').html(data.brandname)
+          // $('#addedbrandrow').removeAttr("style");
+
+      }).fail(function ( jqXHR, textStatus, errorThrown ) {
+          console.log(jqXHR);
+          console.log(textStatus);
+          console.log(errorThrown);
+        });
+      });
+
+    </script>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
