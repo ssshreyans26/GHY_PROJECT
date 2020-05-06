@@ -31,7 +31,7 @@
   <label for="categorylist">Select Category:</label>
   <select class="form-control" id="categorylist">
     <% Category.forEach(function(c){ %>
-         <option class="container" data-category="<%=c._id%>"><%=c.categoryname%><option/>
+         <option class="container" data-category="<%=c._id%>" data-subcat="<%=c.subcategory%>"><%=c.categoryname%><option/>
           <% }); %>
   </select>
    <label for="subcategorylist">Select Sub-Category:</label>
@@ -54,18 +54,11 @@
           $("#categorylist").change(function()
           {
               var selectedcategory = $("#categorylist option:selected").data("category");
-              <%=Category.forEach(function(c){%>
-                if(<%=c._id==selectedcategory%>){
-                  <% c.subcategory.forEach(function(s){ %>
-                  $('#subcategorylist option:last').after('<option class="container" value=' +s.subcategoryname  + '/>');
-                  });
-
-                }
-                else
-                {
-
-                }
-        });})
+              console.log(selectedcategory)
+              var subcategory = $("#categorylist option:selected").data("subcat");
+              console.log(subcategory)
+              ;})
+          })
     </script>
   
   </body>
