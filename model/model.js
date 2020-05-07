@@ -14,7 +14,7 @@ const UserSchema = new Schema({
   },
   flag : {
     type: Boolean,
-    required:true
+    required:false
   },
   name : {
     type : String,
@@ -36,15 +36,18 @@ const UserSchema = new Schema({
     
   },
   product:[{
-    categoryname: {
-      type:String,
-      required:false
+    category: {
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"product"
     },
     
       subcategoryname:[{
-        type:String,
-        required:false,
-        brand:[]
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"subcategory",
+        brand:[{
+          type:mongoose.Schema.Types.ObjectId,
+          ref:"brand"
+        }]
       }],
 
     
@@ -66,10 +69,13 @@ UserSchema.pre('save', async function(next){
   
   //We'll use this later on to make sure that the user trying to log in has the correct credentials
   UserSchema.methods.isValidPassword = async function(password){
+    console.log("inside model password")
     const user = this;
+    console.log(this)
     //Hashes the password sent by the user for login and checks if the hashed password stored in the
     //database matches the one sent. Returns true if it does else false.
     const compare = await bcrypt.compare(password, user.password);
+    console.log("compare"+ compare)
     return compare;
   }
   

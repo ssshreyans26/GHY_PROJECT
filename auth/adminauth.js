@@ -48,7 +48,7 @@ passport.use('adminlogin', new localStrategy({
     
 const JWTstrategy = require('passport-jwt').Strategy;
 //We use this to extract the JWT sent by the user
-const ExtractJWT = require('passport-jwt').ExtractJwt;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
 
 //This verifies that the token sent by the user is valid
 passport.use(new JWTstrategy(
@@ -59,7 +59,7 @@ passport.use(new JWTstrategy(
   secretOrKey : 'top_secret',
   //we expect the user to send the token as a query parameter with the name 'secret_token'
   
-  jwtFromRequest :   ExtractJWT.fromUrlQueryParameter('secret_token')
+  jwtFromRequest :  ExtractJwt.fromExtractors([ExtractJwt.fromBodyField('secret_token'),ExtractJwt.fromUrlQueryParameter('secret_token')])
 },
  
 async (token, done) => {

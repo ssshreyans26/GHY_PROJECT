@@ -1,110 +1,130 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Vendor-Brand</title>
-  </head>
-  <body class="p-3 mb-2 bg-light text-dark">
-      <!----------------------------NAVBAR------------------------------------->
-    <nav class="navbar sticky-top navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
-  <a class="navbar-brand" href="Brand.html">Add Products</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item">
-        <a class="nav-link" href="#">Account Details</a>
-      </li>
-    </ul>
+  <title>Vendor-Brand</title>
+</head>
+
+<body class="p-3 mb-2 bg-light text-dark">
+  <!----------------------------NAVBAR------------------------------------->
+  <nav class="navbar sticky-top navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="Brand.html">Add Products</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+      aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Account Details</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="form-group container" style="margin-top: 2%">
+    <label for="cars">Choose the option for your brand:</label>
+    <select class="form-control container" id="categoryoption">
+      <option></option>
+      <% Category.forEach(function(c){ %>
+      <optgroup label="<%=c.categoryname%>">
+        <% c.subcategory.forEach(function(s){ %>
+        <option data-subcategory="<%=s.subcategoryname%>" data-category="<%=c.categoryname%>" data-cid="<%=c._id%>"
+          data-sid="<%=s._id%>"><%=s.subcategoryname%></option>
+      </optgroup>
+      <%})%>
+      <% }); %>
+    </select>
+
+    <div class="container text-center" style="margin-top: 2%">
+      <h4 class="container text-secondary" id="showbrand"></h4>
+    </div>
+
+    <label for="Brandname">Brand Name</label>
+    <select class="form-control container" id="brandoption">
+      <% Brand.forEach(function(b){ %>
+      <option data-brand="<%=b.brandname%>" data-bid="<%=b._id%>"><%=b.brandname%></option>
+      <%})%> 
+    </select>
+     
+
+
+    <button type="submit" class="btn btn-primary container" id="addproduct" style="margin-top: 2%">Add Brand</button>
   </div>
-</nav>
 
-<div class="form-group container" style="margin-top: 2%">
-  <label for="cars">Choose the option for your brand:</label>
-<select class="form-control container" id="brandoption">
-   <option></option>
-  <% Category.forEach(function(c){ %>
-  <optgroup label="<%=c.categoryname%>">
-    <% c.subcategory.forEach(function(s){ %>
-    <option data-subcategory="<%=s.subcategoryname%>" data-category="<%=c.categoryname%>" data-cid="<%=c._id%>" data-sid="<%=s._id%>" ><%=s.subcategoryname%></option>
-  </optgroup>
-  <%})%>
-  <% }); %>
-</select>
 
-<div class="container text-center" style="margin-top: 2%" >
-  <h4 class="container text-secondary" id="showbrand" ></h4>  
-</div>
 
-<label for="Brandname">Brand Name</label>
-      <input type="text" name="brandname" class="form-control" id="brandname">
 
-<button type="submit" class="btn btn-primary container" id="addbrand" style="margin-top: 2%">Add Brand</button>
-</div>
 
-  
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
 
-    
-    
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  <script>
+    $(document).ready(function () {
+      $("#categoryoption").change(function () {
+        var selectedcategory = $("#categoryoption option:selected").data("category");
+        var selectedsubcategory = $("#categoryoption option:selected").data("subcategory");
+        var cid = $("#categoryoption option:selected").data("cid");
+        var sid = $("#categoryoption option:selected").data("sid");
+        $("#showbrand").text('Selected category is : ' + selectedcategory + ' and selected subcategory is :  ' + selectedsubcategory + '');
 
-    <script>
-      $(document).ready(function()
-        {
-          $("#brandoption").change(function()
-          {
-              var selectedcategory = $("#brandoption option:selected").data("category");
-              var selectedsubcategory = $("#brandoption option:selected").data("subcategory");
-              var cid = $("#brandoption option:selected").data("cid");
-              var sid = $("#brandoption option:selected").data("sid");
-              $("#showbrand").text('Selected category is : '+selectedcategory+' and selected subcategory is :  '+selectedsubcategory+'' );
+        //add brand wala function brand option ke andar rakha hai taki cid aur sid rahe 
+        $("#brandoption").change(function () {
+        var brandname = ($('#brandoption option:selected').data("brand"));
+        var bid = ($('#brandoption option:selected').data("bid"));
+        console.log(brandname)
 
-              //add brand wala function brand option ke andar rakha hai taki cid aur sid rahe 
-
-               $('#addbrand').click(function(e) {
+        $('#addproduct').click(function (e) {
           e.preventDefault();
-          var brandname = ($('#brandname').val());
           
-        $.ajax({
-          type: "POST",
-          url: '' ,
-          contentType: "application/json",
-          processData: false,
-            data:  JSON.stringify({brandname : brandname,cid : cid,sid : sid}),
-            success: function(data) {
+          $.ajax({
+            type: "POST",
+            url: '/vendor_products',
+            contentType: "application/json",
+            processData: false,
+            data: JSON.stringify({ bid: bid, cid: cid, sid: sid }),
+            success: function (data) {
               console.log(data)
-          }
-      }).done(function (data) {
-          console.log("OK");
+            }
+          }).done(function (data) {
+            console.log("OK");
 
-      }).fail(function ( jqXHR, textStatus, errorThrown ) {
-          console.log(jqXHR);
-          console.log(textStatus);
-          console.log(errorThrown);
+          }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+          });
         });
-      });
 
 
 
-              ;})
+        ;
+      })
+    })
+
+    })
 
 
-          })
 
+  </script>
 
+</body>
 
-    </script>
-  
-  </body>
 </html>

@@ -32,8 +32,12 @@ router.get('/login',async(req,res,next)=>{
 })
 
 router.post('/login', async (req, res, next) => {
-    passport.authenticate('login', async (err, user, info) => {     
+  console.log(req.body.password)
+  console.log("inside vendor login")
+    passport.authenticate('login', async (err, user, info) => {    
+      
       try {
+
         if(err || !user){
           const error = new Error('An Error occurred')
           console.log(err)
@@ -49,30 +53,11 @@ router.post('/login', async (req, res, next) => {
           const token = jwt.sign({ user : body },'top_secret');
           //Send back the token to the user
           // return res.json({ token,user });
-          res.redirect('/user/profile?secret_token='+token)
+          res.redirect('/user/vendor_products?secret_token='+token)
         });     } catch (error) {
         return next(error);
       }
     })(req, res, next);
   });
   
-  router.get('/vendor_details',async(req,res,next) => {
-    res.render('vendor_details');
-  });
-
-  router.post('/vendor_details',async(req,res,next)=>{
-
-  });
-
-  router.get('/vendor_products',async(req,res,next)=>{
-    // var brand = BrandModel.find()
-    ProductModel.find().populate('subcategory').exec((err,product)=>{
-      
-      res.render('vendor_product',{Category:product});
-    })
-    
-  })
-
-
-
-  module.exports = router;
+module.exports = router;

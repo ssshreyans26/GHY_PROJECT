@@ -1,4 +1,5 @@
 const passport = require('passport');
+var express = require('express');
 const localStrategy = require('passport-local').Strategy;
 const UserModel = require('../model/model');
 
@@ -28,20 +29,25 @@ passport.use('login', new localStrategy({
   try {
     console.log("inside passport")
     //Find the user associated with the email provided by the user
+    
     const user = await UserModel.findOne({ email });
+    console.log(user)
     if( !user ){
       //If the user isn't found in the database, return a message
       console.log("user not found")
       return done(null, false, { message : 'User not found'});
     }
-    // if(user.flag == false){
-
-    //   return done(null, false, { message : 'User not Verified by Admin'});
-    // }
+    if(user.flag == false){
+      console.log("usrer not verified")
+      return done(null, false, { message : 'User not Verified by Admin'});
+    }
     //Validate password and make sure it matches with the corresponding hash stored in the database
     //If the passwords match, it returns a value of true.
+    console.log(password)
     const validate = await user.isValidPassword(password);
+    console.log("validate="+validate)
     if( !validate ){
+      console.log("wrongwa password")
       return done(null, false, { message : 'Wrong Password'});
     }
     //Send the user information to the next middleware
@@ -53,14 +59,14 @@ passport.use('login', new localStrategy({
     
 const JWTstrategy = require('passport-jwt').Strategy;
 //We use this to extract the JWT sent by the user
-const ExtractJWT = require('passport-jwt').ExtractJwt;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
 
 //This verifies that the token sent by the user is valid
 passport.use(new JWTstrategy({
   //secret we used to sign our JWT
   secretOrKey : 'top_secret',
   //we expect the user to send the token as a query parameter with the name 'secret_token'
-  jwtFromRequest : ExtractJWT.fromUrlQueryParameter('secret_token')
+  jwtFromRequest : ExtractJwt.fromExtractors([ExtractJwt.fromBodyField('secret_token'),ExtractJwt.fromUrlQueryParameter('secret_token')])
 }, async (token, done) => {
   try {
     //Pass the user details to the next middleware
