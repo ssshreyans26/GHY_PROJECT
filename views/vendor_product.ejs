@@ -28,17 +28,28 @@
 </nav>
 
 <div class="form-group container" style="margin-top: 2%">
-  <label for="categorylist">Select Category:</label>
-  <select class="form-control" id="categorylist">
-    <% Category.forEach(function(c){ %>
-         <option class="container" data-category="<%=c._id%>" data-subcat="<%=c.subcategory%>"><%=c.categoryname%><option/>
-          <% }); %>
-  </select>
-   <label for="subcategorylist">Select Sub-Category:</label>
-  <select class="form-control" id="subcategorylist">
-         <option class="container" value="" ><option/>
-  </select>
+  <label for="cars">Choose the option for your brand:</label>
+<select class="form-control container" id="brandoption">
+   <option></option>
+  <% Category.forEach(function(c){ %>
+  <optgroup label="<%=c.categoryname%>">
+    <% c.subcategory.forEach(function(s){ %>
+    <option data-subcategory="<%=s.subcategoryname%>" data-category="<%=c.categoryname%>" data-cid="<%=c._id%>" data-sid="<%=s._id%>" ><%=s.subcategoryname%></option>
+  </optgroup>
+  <%})%>
+  <% }); %>
+</select>
+
+<div class="container text-center" style="margin-top: 2%" >
+  <h4 class="container text-secondary" id="showbrand" ></h4>  
 </div>
+
+<label for="Brandname">Brand Name</label>
+      <input type="text" name="brandname" class="form-control" id="brandname">
+
+<button type="submit" class="btn btn-primary container" id="addbrand" style="margin-top: 2%">Add Brand</button>
+</div>
+
   
 
     
@@ -51,14 +62,48 @@
     <script>
       $(document).ready(function()
         {
-          $("#categorylist").change(function()
+          $("#brandoption").change(function()
           {
-              var selectedcategory = $("#categorylist option:selected").data("category");
-              console.log(selectedcategory)
-              var subcategory = $("#categorylist option:selected").data("subcat");
-              console.log(subcategory)
+              var selectedcategory = $("#brandoption option:selected").data("category");
+              var selectedsubcategory = $("#brandoption option:selected").data("subcategory");
+              var cid = $("#brandoption option:selected").data("cid");
+              var sid = $("#brandoption option:selected").data("sid");
+              $("#showbrand").text('Selected category is : '+selectedcategory+' and selected subcategory is :  '+selectedsubcategory+'' );
+
+              //add brand wala function brand option ke andar rakha hai taki cid aur sid rahe 
+
+               $('#addbrand').click(function(e) {
+          e.preventDefault();
+          var brandname = ($('#brandname').val());
+          
+        $.ajax({
+          type: "POST",
+          url: '' ,
+          contentType: "application/json",
+          processData: false,
+            data:  JSON.stringify({brandname : brandname,cid : cid,sid : sid}),
+            success: function(data) {
+              console.log(data)
+          }
+      }).done(function (data) {
+          console.log("OK");
+
+      }).fail(function ( jqXHR, textStatus, errorThrown ) {
+          console.log(jqXHR);
+          console.log(textStatus);
+          console.log(errorThrown);
+        });
+      });
+
+
+
               ;})
+
+
           })
+
+
+
     </script>
   
   </body>
