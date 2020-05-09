@@ -35,7 +35,7 @@ const adminRoute = require('./routes/admin-routes');
 
 app.use('/', routes);
 //We plugin our jwt strategy as a middleware so only verified users can access this route
-app.use('/user', passport.authenticate('jwt', { session : false }), secureRoute );
+app.use('/vendor', passport.authenticate('jwt', { session : false }), secureRoute );
 app.use('/adminpanel', passport.authenticate('jwt', { session : false }), adminRoute );
 app.use('/admin',admin );
 
