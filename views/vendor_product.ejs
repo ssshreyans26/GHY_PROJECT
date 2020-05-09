@@ -16,7 +16,7 @@
 <body class="p-3 mb-2 bg-light text-dark">
   <!----------------------------NAVBAR------------------------------------->
   <nav class="navbar sticky-top navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
-    <a class="navbar-brand" href="Brand.html">Add Products</a>
+    <a class="navbar-brand" href="/vendor/vendor_products?secret_token=<%=secret_token%>">Add Products</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
       aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -25,7 +25,7 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="#">Account Details</a>
+          <a class="nav-link" href="/vendor/vendor_details?secret_token=<%=secret_token%>">Account Details</a>
         </li>
       </ul>
     </div>
@@ -99,7 +99,7 @@
             url: '/vendor/vendor_products',
             contentType: "application/json",
             processData: false,
-            data: JSON.stringify({ bid: bid, cid: cid, sid: sid }),
+            data: JSON.stringify({ bid: bid, cid: cid, sid: sid,secret_token:secret_token }),
             success: function (data) {
               console.log(data)
             }

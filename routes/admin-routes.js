@@ -24,7 +24,7 @@ router.get("/vendor",(req,res,next)=>{
     if (err) console.log(err);
     else{
       console.log(vendor)
-      res.render('admin_vendor',{vendor:vendor})
+      res.render('admin_vendor',{vendor:vendor,secret_token:req.query.secret_token})
     }    
   })
 })
@@ -59,7 +59,7 @@ router.get("/brand", (req, res, next) => {
     if (err) console.log(err);
     if (brand) {
       console.log(brand)
-      res.render("admin_brand",{brand:brand});    
+      res.render("admin_brand",{brand:brand,secret_token:req.query.secret_token});    
     }
   })
   

@@ -18,7 +18,7 @@ router.get('/profile', (req, res, next) => {
 });
 
 router.get('/vendor_details',async(req,res,next) => {
-  res.render('vendor_details');
+  res.render('vendor_details',{secret_token:req.query.secret_token});
 });
 
 router.post('/vendor_details',async(req,res,next)=>{
