@@ -38,62 +38,41 @@ router.get('/vendor_products',async(req,res,next)=>{
 router.post('/vendor_products',(req,res,next)=>{
   // console.log({req.user})
    UserModel.findById(req.user._id, (err,vendor) => {
-     var bflag = 0,sflag = 0,cflag = 0
+     var pflag = 0
      if(err){
        console.log(err)
      }
-
-     vendor.category.forEach(category => {
-      if(req.body.cid == category._id){
-        cflag = 1;
-         category.subcategory.forEach(subcategory => {
-          if(req.body.sid== subcategory._id){
-            sflag = 1 ;
-             subcategory.brand.forEach(brand => {
-              if(brand._id==req.body.bid){
-                console.log("Brand has alredy been added")
-                 bflag = 1; 
-              }
-              return(bflag)
-            })
-            if(bflag!=1){
-              subcategory.brand.push(req.body.bid)
-            }
-            
-          }
-
-            return(sflag)  
-            });
-            if(sflag!=1){
-              category.subcategory.push(req.body.sid);
-              category.subcategory.forEach(subcategory => {
-                if(subcategory._id == req.body.sid){
-                  subcategory.brand.push(req.body.cid)
-                }
-              })
-              
-            }
-      } 
-      return(bflag)     
-    });
-    console.log({bflag})
-    if(cflag!=1){
-      //console.log({bflag})
-      vendor.category.push(req.body.cid);
-      
-      (vendor.category).forEach(category => {
-        if(category._id==req.body.cid){
-          (category.subcategory).push(req.body.sid)
-          (category.subcategory.brand).push(req.body.bid)
-        }
-      });
-
-            }
-            vendor.save()
+     var newproduct = {
+      category: req.body.cid,
+      subcategory: req.body.sid,
+      brand: req.body.bid
     }
 
+    var l = (vendor.product).length;
+    for (var i = 0; i < l; i++) {
+      if(vendor.product[i].category==newproduct.category&&vendor.product[i].subcategory==newproduct.subcategory&&vendor.product[i].brand==newproduct.brand)
+      //Do something
+      pflag = 1
+      console.log("this product has alredy been added")
+  }
 
-  )
+    //  (vendor.product).forEach(product => {
+    //    console.log(product)
+    //   //  if(product.category._id==newproduct.category&&product.subcategory._id==newproduct.subcategory&&product.brand._id==newproduct.brand){
+    //   //    console.log("this has alredy been added")
+    //   //    pflag = 1
+    //   //  }
+    //   //  return pflag
+       
+    //  });
+     if(pflag!=1){
+
+      vendor.product.push(newproduct),
+     vendor.save();
+     console.log(vendor)
+     res.send(vendor.product)
+      }
+    })
 });
 
 

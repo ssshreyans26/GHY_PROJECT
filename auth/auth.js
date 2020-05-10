@@ -38,7 +38,9 @@ passport.use('vendorlogin', new localStrategy({
     }
     //Validate password and make sure it matches with the corresponding hash stored in the database
     //If the passwords match, it returns a value of true.
-
+    if(user.flag==false){
+      return done(null, false, { message : 'You are not yet approved by admin'});
+    }
     const validate = await user.isValidPassword(password);
     console.log({validate});
     if( !validate ){
