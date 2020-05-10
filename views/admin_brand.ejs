@@ -13,7 +13,7 @@
   <body class="p-3 mb-2 bg-light text-dark">
       <!----------------------------NAVBAR------------------------------------->
     <nav class="navbar sticky-top navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
-  <a class="navbar-brand" href="Brand.html">Add Brand</a>
+  <a class="navbar-brand" href="/adminpanel/brand?secret_token=<%=secret_token%>">Add Brand</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -21,10 +21,10 @@
   <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item">
-        <a class="nav-link" href="Admin(Vendor Verification).html">Vendor Verification</a>
+        <a class="nav-link" href="/adminpanel/vendor?secret_token=<%=secret_token%>">Vendor Verification</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="Category.html">Add Category</a>
+        <a class="nav-link" href="/adminpanel/product?secret_token=<%=secret_token%>">Add Category</a>
       </li>
     </ul>
   </div>
@@ -87,7 +87,7 @@
           url: '/adminpanel/brand' ,
           contentType: "application/json",
           processData: false,
-            data:  JSON.stringify({brandname : brandname}),
+            data:  JSON.stringify({brandname : brandname,secret_token:secret_token}),
             success: function(data) {
               console.log(data)
           }
