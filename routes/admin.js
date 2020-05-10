@@ -34,6 +34,7 @@ router.post("/login", async (req, res, next) => {
       if (err || !user) {
         const error = new Error("An Error occurred");
         console.log(err);
+        console.log(info)
         return next(error);
       }
       req.login(user, { session: false }, async (error) => {

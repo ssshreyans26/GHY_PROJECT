@@ -36,21 +36,19 @@ const UserSchema = new Schema({
     required : false,
     
   },
-  product:[{
-    category: {
+    category: [{
       type:mongoose.Schema.Types.ObjectId,
-      ref:"product"
-    },
-    
-      subcategory:[{
+      ref:"product",
+      unique: true,   
+    subcategory:[{
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"subcategory",
+      brand:[{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"subcategory",
-        brand:[{
-          type:mongoose.Schema.Types.ObjectId,
-          ref:"brand"
-        }]
-      }],       
-  }]  
+        ref:"brand"
+      }]    
+    }],
+  }],
 });
 
 

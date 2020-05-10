@@ -58,7 +58,7 @@
      
 
 
-    <button type="submit" class="btn btn-primary container" id="addproduct" style="margin-top: 2%">Add Brand</button>
+    <button type="submit" class="btn btn-primary container" token= "<%=secret_token%>" id="addproduct" style="margin-top: 2%">Add Brand</button>
   </div>
 
 
@@ -93,13 +93,13 @@
 
         $('#addproduct').click(function (e) {
           e.preventDefault();
-          
+          var token = $('#addproduct').attr('token')
           $.ajax({
             type: "POST",
             url: '/vendor/vendor_products',
             contentType: "application/json",
             processData: false,
-            data: JSON.stringify({ bid: bid, cid: cid, sid: sid }),
+            data: JSON.stringify({ bid: bid, cid: cid, sid: sid ,secret_token:token}),
             success: function (data) {
               console.log(data)
             }

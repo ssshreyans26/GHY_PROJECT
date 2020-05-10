@@ -35,25 +35,65 @@ router.get('/vendor_products',async(req,res,next)=>{
   })    
 })
 
-router.post('/vendor_products',async(req,res,next)=>{
-  UserModel.findById(req.user._id,async (err,vendor) => {
-    vendor.product.category.forEach(category => {
+router.post('/vendor_products',(req,res,next)=>{
+  // console.log({req.user})
+   UserModel.findById(req.user._id, (err,vendor) => {
+     var bflag = 0,sflag = 0,cflag = 0
+     if(err){
+       console.log(err)
+     }
+
+     vendor.category.forEach(category => {
       if(req.body.cid == category._id){
-        vendor.product.subcategory.forEach(subcategory => {
+        cflag = 1;
+         category.subcategory.forEach(subcategory => {
           if(req.body.sid== subcategory._id){
-            subcategory.brand.forEach(brand => {
+            sflag = 1 ;
+             subcategory.brand.forEach(brand => {
               if(brand._id==req.body.bid){
-                alert("Brand has alredy been added")
+                console.log("Brand has alredy been added")
+                 bflag = 1; 
               }
+              return(bflag)
             })
+            if(bflag!=1){
+              subcategory.brand.push(req.body.bid)
+            }
             
           }
-              
-            });
-      }      
-    });
 
-  })
+            return(sflag)  
+            });
+            if(sflag!=1){
+              category.subcategory.push(req.body.sid);
+              category.subcategory.forEach(subcategory => {
+                if(subcategory._id == req.body.sid){
+                  subcategory.brand.push(req.body.cid)
+                }
+              })
+              
+            }
+      } 
+      return(bflag)     
+    });
+    console.log({bflag})
+    if(cflag!=1){
+      //console.log({bflag})
+      vendor.category.push(req.body.cid);
+      
+      (vendor.category).forEach(category => {
+        if(category._id==req.body.cid){
+          (category.subcategory).push(req.body.sid)
+          (category.subcategory.brand).push(req.body.bid)
+        }
+      });
+
+            }
+            vendor.save()
+    }
+
+
+  )
 });
 
 
