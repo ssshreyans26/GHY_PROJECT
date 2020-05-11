@@ -27,7 +27,7 @@
   </div>
 </nav>
       <!--------------------FORM--------------------->
-    <form class="container" style="margin-top: 2%" action="" method="POST">
+    <form class="container" style="margin-top: 2%" enctype="multipart/form-data" action="/vendor/vendor_details" method="POST">
   <div class="row container">
     <div class="col">
       <label for="gstno">GST NO.</label>
@@ -39,18 +39,18 @@
 
     <div class="input-group mb-3 container">
   <div class="custom-file">
-    <input type="file" class="custom-file-input" id="inputGroupFile02">
+    <input type="file" class="custom-file-input" name="file" id="inputGroupFile02">
     <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
   </div>
-  <div class="input-group-append">
+  <!-- <div class="input-group-append">
      <button type="submit" class="input-group-text" id="addbrand">Upload</button>
-  </div>
+  </div> -->
 </div>
  <div class="form-group container">
     <label for="inputAddress">Store Location</label>
     <input type="text" class="form-control" id="inputAddress">
   </div>
-    
+  <input  value="<%=secret_token%>" name="secret_token"> 
   <button type="submit" class="container btn btn-primary" id="addbrand" style="margin-top: 2%">Add Details</button>
 </form>
 

@@ -4,7 +4,22 @@ const SubCategoryModel = require("../model/subcategory");
 const BrandModel = require("../model/brand.js");
 const UserModel = require('../model/model');
 const router = express.Router();
+// const googleStorage = require('@google-cloud/storage');
+const Multer = require('multer');
+const {Storage} = require('@google-cloud/storage');
+const storage =new Storage({
+  projectId: "ghy-project-276107",
+  keyFilename: "myapp/ghy-project-276107-firebase-adminsdk-o5dfk-ef8aeea7a9.json"
+});
 
+const bucket = storage.bucket("gs://ghy-project-276107.appspot.com");
+
+const multer = Multer({
+  storage: Multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024 // no larger than 5mb, you can change as needed.
+  }
+});
 //Let's say the route below is very sensitive and we want only authorized users to have access
 
 //Displays information tailored according to the logged in user
@@ -22,7 +37,17 @@ router.get('/vendor_details',async(req,res,next) => {
 });
 
 router.post('/vendor_details',async(req,res,next)=>{
-
+  let file = req.file;
+  let uid = req.user._id
+  if (file) {
+    uploadImageToStorage(file,uid).then((success) => {
+      res.status(200).send({
+        status: 'success'
+      });
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
 });
 
 router.get('/vendor_products',async(req,res,next)=>{
@@ -47,7 +72,6 @@ router.post('/vendor_products',(req,res,next)=>{
       subcategory: req.body.sid,
       brand: req.body.bid
     }
-
     var l = (vendor.product).length;
     for (var i = 0; i < l; i++) {
       if(vendor.product[i].category==newproduct.category&&vendor.product[i].subcategory==newproduct.subcategory&&vendor.product[i].brand==newproduct.brand)
@@ -62,12 +86,11 @@ router.post('/vendor_products',(req,res,next)=>{
     //   //    console.log("this has alredy been added")
     //   //    pflag = 1
     //   //  }
-    //   //  return pflag
-       
+    //   //  return pflag       
     //  });
      if(pflag!=1){
 
-      vendor.product.push(newproduct),
+    vendor.product.push(newproduct),
      vendor.save();
      console.log(vendor)
      res.send(vendor.product)
@@ -75,6 +98,36 @@ router.post('/vendor_products',(req,res,next)=>{
     })
 });
 
+
+const uploadImageToStorage = (file,uid) => {
+  return new Promise((resolve, reject) => {
+    if (!file) {
+      reject('No image file');
+    }
+    let newFileName = `${file.originalname}_${Date.now()}`;
+
+    let fileUpload = bucket.file(newFileName);
+
+    const blobStream = fileUpload.createWriteStream({
+      metadata: {
+        contentType: file.mimetype
+      }
+    });
+
+    blobStream.on('error', (error) => {
+      reject('Something is wrong! Unable to upload at the moment.');
+    });
+
+    blobStream.on('finish', () => {
+      // The public URL can be used to directly access the file via HTTP.
+      const url = format(`https://storage.googleapis.com/${bucket.name}/${fileUpload.name}`);
+      console.log(url)
+      resolve(url);
+    });
+
+    blobStream.end(file.buffer);
+  });
+}
 
 
 module.exports = router;
