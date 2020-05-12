@@ -22,7 +22,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
-app.use(express.json());
+app.use(express.json())
+
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -35,7 +36,7 @@ const adminRoute = require('./routes/admin-routes');
 
 app.use('/', routes);
 //We plugin our jwt strategy as a middleware so only verified users can access this route
-app.use('/vendor', passport.authenticate('jwt', { session : false }), secureRoute );
+app.use('/vendor',  secureRoute );
 app.use('/adminpanel', passport.authenticate('jwt', { session : false }), adminRoute );
 app.use('/admin',admin );
 

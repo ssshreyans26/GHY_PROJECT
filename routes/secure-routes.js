@@ -3,13 +3,14 @@ const ProductModel = require('../model/product');
 const SubCategoryModel = require("../model/subcategory");
 const BrandModel = require("../model/brand.js");
 const UserModel = require('../model/model');
+const checkauth = require('../auth/check-auth')
 const router = express.Router();
 // const googleStorage = require('@google-cloud/storage');
 const Multer = require('multer');
 const {Storage} = require('@google-cloud/storage');
 const storage =new Storage({
   projectId: "ghy-project-276107",
-  keyFilename: "myapp/ghy-project-276107-firebase-adminsdk-o5dfk-ef8aeea7a9.json"
+  keyFilename: "ghy-project-276107-firebase-adminsdk-o5dfk-ef8aeea7a9.json"
 });
 
 const bucket = storage.bucket("gs://ghy-project-276107.appspot.com");
@@ -36,11 +37,12 @@ router.get('/vendor_details',async(req,res,next) => {
   res.render('vendor_details',{secret_token:req.query.secret_token});
 });
 
-router.post('/vendor_details',async(req,res,next)=>{
+router.post('/vendor_details',checkauth,multer.single('file'),async(req,res,next)=>{
   let file = req.file;
-  let uid = req.user._id
+  // let uid = req.user._id
+  console.log("post details")
   if (file) {
-    uploadImageToStorage(file,uid).then((success) => {
+    uploadImageToStorage(file).then((success) => {
       res.status(200).send({
         status: 'success'
       });
@@ -99,7 +101,7 @@ router.post('/vendor_products',(req,res,next)=>{
 });
 
 
-const uploadImageToStorage = (file,uid) => {
+const uploadImageToStorage = (file) => {
   return new Promise((resolve, reject) => {
     if (!file) {
       reject('No image file');
@@ -115,14 +117,18 @@ const uploadImageToStorage = (file,uid) => {
     });
 
     blobStream.on('error', (error) => {
+      console.log({error})
       reject('Something is wrong! Unable to upload at the moment.');
     });
 
     blobStream.on('finish', () => {
       // The public URL can be used to directly access the file via HTTP.
+      var x = bucket.name
+      console.log(x)
       const url = format(`https://storage.googleapis.com/${bucket.name}/${fileUpload.name}`);
-      console.log(url)
+      
       resolve(url);
+      console.log(url)
     });
 
     blobStream.end(file.buffer);
