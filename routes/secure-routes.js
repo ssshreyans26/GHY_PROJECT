@@ -5,6 +5,9 @@ const BrandModel = require("../model/brand.js");
 const UserModel = require('../model/model');
 const checkauth = require('../auth/check-auth')
 const router = express.Router();
+const passport = require('passport');
+
+const {format} = require('util');
 // const googleStorage = require('@google-cloud/storage');
 const Multer = require('multer');
 const {Storage} = require('@google-cloud/storage');
@@ -38,18 +41,24 @@ router.get('/vendor_details',passport.authenticate('jwt', { session : false }),a
 });
 
 router.post('/vendor_details',checkauth,multer.single('file'),async(req,res,next)=>{
-  let file = req.file;
-  // let uid = req.user._id
+  let file = req.body.file;
+  console.log(req)
+  let uid = req.user._id
   console.log("post details")
+  console.log(file)
   if (file) {
+    console.log("upload function will be executed")
     uploadImageToStorage(file).then((success) => {
-      res.status(200).send({
-        status: 'success'
-      });
+      // res.status(200).send({
+      //   status: 'success'
+      // });
+      console.log("success")
+      res.send("file uploaded")
     }).catch((error) => {
       console.error(error);
     });
   }
+  
 });
 
 router.get('/vendor_products',passport.authenticate('jwt', { session : false }),async(req,res,next)=>{
@@ -81,15 +90,6 @@ router.post('/vendor_products',passport.authenticate('jwt', { session : false })
       pflag = 1
       console.log("this product has alredy been added")
   }
-
-    //  (vendor.product).forEach(product => {
-    //    console.log(product)
-    //   //  if(product.category._id==newproduct.category&&product.subcategory._id==newproduct.subcategory&&product.brand._id==newproduct.brand){
-    //   //    console.log("this has alredy been added")
-    //   //    pflag = 1
-    //   //  }
-    //   //  return pflag       
-    //  });
      if(pflag!=1){
 
     vendor.product.push(newproduct),
@@ -102,14 +102,16 @@ router.post('/vendor_products',passport.authenticate('jwt', { session : false })
 
 
 const uploadImageToStorage = (file) => {
+  console.log("inside file upload")
   return new Promise((resolve, reject) => {
     if (!file) {
       reject('No image file');
     }
+    console.log("you are here")
     let newFileName = `${file.originalname}_${Date.now()}`;
-
+    console.log({newFileName})
     let fileUpload = bucket.file(newFileName);
-
+    console.log({fileUpload})
     const blobStream = fileUpload.createWriteStream({
       metadata: {
         contentType: file.mimetype
@@ -126,9 +128,9 @@ const uploadImageToStorage = (file) => {
       var x = bucket.name
       console.log(x)
       const url = format(`https://storage.googleapis.com/${bucket.name}/${fileUpload.name}`);
-      
-      resolve(url);
       console.log(url)
+      resolve(url);
+      
     });
 
     blobStream.end(file.buffer);
