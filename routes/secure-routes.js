@@ -33,7 +33,7 @@ router.get('/profile', (req, res, next) => {
   })
 });
 
-router.get('/vendor_details',async(req,res,next) => {
+router.get('/vendor_details',passport.authenticate('jwt', { session : false }),async(req,res,next) => {
   res.render('vendor_details',{secret_token:req.query.secret_token});
 });
 
@@ -52,7 +52,7 @@ router.post('/vendor_details',checkauth,multer.single('file'),async(req,res,next
   }
 });
 
-router.get('/vendor_products',async(req,res,next)=>{
+router.get('/vendor_products',passport.authenticate('jwt', { session : false }),async(req,res,next)=>{
   // var brand = BrandModel.find()
 
     ProductModel.find().populate('subcategory').exec((err,product)=>{
@@ -62,7 +62,7 @@ router.get('/vendor_products',async(req,res,next)=>{
   })    
 })
 
-router.post('/vendor_products',(req,res,next)=>{
+router.post('/vendor_products',passport.authenticate('jwt', { session : false }),(req,res,next)=>{
   // console.log({req.user})
    UserModel.findById(req.user._id, (err,vendor) => {
      var pflag = 0
