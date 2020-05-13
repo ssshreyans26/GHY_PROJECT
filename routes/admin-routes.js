@@ -31,8 +31,7 @@ router.get("/vendor",(req,res,next)=>{
 
 router.post("/vendor",(req,res,next)=> {
   var approval = req.body.approval
-  var userid = req.body.userid
-  
+  var userid = req.body.userid  
     UserModel.findById(userid,function(err,user){
       console.log(user)
       if(err) console.log(err);

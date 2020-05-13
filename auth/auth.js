@@ -62,11 +62,14 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 passport.use(new JWTstrategy({
   //secret we used to sign our JWT
   secretOrKey : 'top_secret',
+  
+  
   //we expect the user to send the token as a query parameter with the name 'secret_token'
-  jwtFromRequest : ExtractJwt.fromExtractors([ExtractJwt.fromBodyField('secret_token'),ExtractJwt.fromUrlQueryParameter('secret_token')])
+  jwtFromRequest : ExtractJwt.fromExtractors([ExtractJwt.fromBodyField('secret_token'),ExtractJwt.fromUrlQueryParameter('secret_token'),ExtractJwt.fromAuthHeaderAsBearerToken(),ExtractJwt.fromHeader("Authorization")])
 }, async (token, done) => {
   try {
     //Pass the user details to the next middleware
+    console.log(token)
     return done(null, token.user);
   } catch (error) {
     done(error);
