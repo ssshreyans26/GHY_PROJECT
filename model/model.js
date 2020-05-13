@@ -63,11 +63,11 @@ UserSchema.pre('save', async function(next){
   if(this.isModified('password')){
   //Hash the password with a salt round of 10, the higher the rounds the more secure, but the slower
   //your application becomes.
-  console.log(this.password);
+  
   const hash = await bcrypt.hash(this.password, 10); //bcrypt js does not have direct salt rounds. 
   //Replace the plain text password with the hash and then store it
   this.password = hash;
-  console.log(this.password);
+  
   //Indicates we're done and moves on to the next middleware
 }
   next();
@@ -77,11 +77,11 @@ UserSchema.pre('save', async function(next){
 UserSchema.methods.isValidPassword = async function(password){
   try{
   const user = this;
-  console.log({this: this.password, password});
+
   //Hashes the password sent by the user for login and checks if the hashed password stored in the
   //database matches the one sent. Returns true if it does else false.
   const compare = await bcrypt.compare(password, user.password);
-  console.log({compare})
+ 
   return compare;
   }
   catch(err){
