@@ -41,11 +41,14 @@ router.get('/vendor_details',passport.authenticate('jwt', { session : false }),a
 });
 
 router.post('/vendor_details',checkauth,multer.single('file'),async(req,res,next)=>{
-  let file = req.body.file;
-  console.log(req)
+
+  // console.log(req.file)
+  // console.log({file})
+  console.log(req.file)
+  let file = req.file;
   let uid = req.user._id
   console.log("post details")
-  console.log(file)
+  // console.log(file)
   if (file) {
     console.log("upload function will be executed")
     uploadImageToStorage(file).then((success) => {

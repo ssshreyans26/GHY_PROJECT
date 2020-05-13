@@ -54,24 +54,28 @@ $('#submit').click(function(e){
   e.preventDefault()
   var secret_token = $("#submit").attr("token")
     // e.preventDefault()
+    // var file = $('#file').
    var form_data = new FormData();
     
-   form_data.append("file", document.getElementById('file'));
+  //  form_data.append("file", document.getElementById('file').file);
+  //  var formData = new FormData($(this)[0])
   //  var totalfiles = document.getElementById('files').files.length;
   //  for (var index = 0; index < totalfiles; index++) {
 
   //  }
   //  form_data.append("secret_token" , token )
+  var files = $('#file')[0].files[0];
+  form_data.append('file',files);
    form_data.append("secret_token",secret_token)
    console.log({form_data})
    $.ajax({
             type: "POST",
             url: '/vendor/vendor_details',
             contentType: false,
-            mimeType: "text/plain; charset=x-user-defined",
             processData: false,
             data: (form_data),
             headers: {
+              
       'Authorization': 'Bearer ' + secret_token 
    },
             success: function (data) {
@@ -81,9 +85,9 @@ $('#submit').click(function(e){
             console.log("OK");
 
           }).fail(function (jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
+            console.log({jqXHR});
+            console.log({textStatus});
+            console.log({errorThrown});
           });
         });
 
