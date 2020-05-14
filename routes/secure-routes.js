@@ -46,6 +46,7 @@ router.post('/vendor_details',checkauth,multer.single('file'),async(req,res,next
   // console.log({file})
   console.log(req.file)
   let file = req.file;
+  let gstno = req.body.gstno
   let uid = req.user
   console.log(uid.user._id)
   console.log("post details")
@@ -58,6 +59,7 @@ router.post('/vendor_details',checkauth,multer.single('file'),async(req,res,next
       // });
       UserModel.findById(uid.user._id,(err,vendor)=>{
         vendor.imagelink = url
+        vendor.gstno =gstno
         vendor.save()
       })
       // console.log({success})

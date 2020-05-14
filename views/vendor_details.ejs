@@ -81,8 +81,11 @@ $('#submit').click(function(e){
 
   //  }
   //  form_data.append("secret_token" , token )
+  var gstno = $('#gstno').val()
   var files = $('#file')[0].files[0];
   form_data.append('file',files);
+  form_data.append('gstno',gstno);
+  
    form_data.append("secret_token",secret_token)
    console.log({form_data})
    $.ajax({

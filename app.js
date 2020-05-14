@@ -29,6 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 const routes = require('./routes/routes');
 const admin = require('./routes/admin')
+const home =  require('./routes/users')
 // app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 const secureRoute = require('./routes/secure-routes');
@@ -39,6 +40,7 @@ app.use('/', routes);
 app.use('/vendor',  secureRoute );
 app.use('/adminpanel', passport.authenticate('jwt', { session : false }), adminRoute );
 app.use('/admin',admin );
+app.use('/home',home);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
