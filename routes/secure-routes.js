@@ -46,15 +46,22 @@ router.post('/vendor_details',checkauth,multer.single('file'),async(req,res,next
   // console.log({file})
   console.log(req.file)
   let file = req.file;
-  let uid = req.user._id
+  let uid = req.user
+  console.log(uid.user._id)
   console.log("post details")
   // console.log(file)
   if (file) {
     console.log("upload function will be executed")
-    uploadImageToStorage(file,uid).then((success) => {
+    uploadImageToStorage(file).then((url) => {
       // res.status(200).send({
       //   status: 'success'
       // });
+      UserModel.findById(uid.user._id,(err,vendor)=>{
+        vendor.imagelink = url
+        vendor.save()
+      })
+      // console.log({success})
+      // console.log("vendor =" +{url})
       console.log("success")
       res.send("file uploaded")
     }).catch((error) => {
@@ -104,7 +111,7 @@ router.post('/vendor_products',passport.authenticate('jwt', { session : false })
 });
 
 
-const uploadImageToStorage = (file,uid) => {
+const uploadImageToStorage = (file) => {
   console.log("inside file upload")
   return new Promise((resolve, reject) => {
     if (!file) {
@@ -128,22 +135,20 @@ const uploadImageToStorage = (file,uid) => {
 
     blobStream.on('finish', () => {
       // The public URL can be used to directly access the file via HTTP.
-      var x = bucket.name
+      // console.log(uid)
       // console.log(x)
       const url = format(`https://storage.googleapis.com/${bucket.name}/${fileUpload.name}`);
       const newurl = format(`https://firebasestorage.googleapis.com/v0/b/ghy-project-276107.appspot.com/o/${fileUpload.name}?alt=media`)
       console.log({newurl})
       console.log({url})
-      resolve(url);
-      UserModel.findById(uid,(err,vendor)=>{
-        if(err) {console.log(err)};
-        vendor.gstno = req.body.gstno,
-        vendor.imagelink = newurl
-        vendor.save() 
-      })
+      resolve(newurl);
+      
+    
     });
 
     blobStream.end(file.buffer);
+
+    
     
   });
 }
