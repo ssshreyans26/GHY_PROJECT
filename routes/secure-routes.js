@@ -129,9 +129,11 @@ const uploadImageToStorage = (file) => {
     blobStream.on('finish', () => {
       // The public URL can be used to directly access the file via HTTP.
       var x = bucket.name
-      console.log(x)
+      // console.log(x)
       const url = format(`https://storage.googleapis.com/${bucket.name}/${fileUpload.name}`);
-      console.log(url)
+      const newurl = format(`https://firebasestorage.googleapis.com/v0/b/ghy-project-276107.appspot.com/o/${fileUpload.name}?alt=media`)
+      console.log({newurl})
+      console.log({url})
       resolve(url);
       
     });
