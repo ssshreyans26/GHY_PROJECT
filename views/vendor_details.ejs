@@ -26,11 +26,28 @@
     </ul>
   </div>
 </nav>
-      <!--------------------FORM--------------------->
-      <form method='post' action='' enctype="multipart/form-data">
-        <input type="file" id='file' name="file" multiple><br>
-        <input type="button" id="submit" token="<%=secret_token%>" value='Upload'>
-     </form>
+
+
+        <form class="container" style="margin-top: 2%" enctype="multipart/form-data" action='' method="post">
+  <div class="row container">
+    <div class="col">
+      <label for="gstno">GST NO.</label>
+      <input type="text" class="form-control" id="gstno">
+    </div>
+  </div>
+
+  <p class="container" style="margin-top: 2%;margin-bottom: 1%"> Upload Image </p>
+
+    <div class="input-group mb-3 container">
+      <input type="file" id='file' name="file" multiple><br>
+  </div>
+</div>
+ <div class="form-group container">
+    <label for="inputAddress">Store Location</label>
+    <input type="text" class="form-control" id="inputAddress">
+  </div>
+  <input type="button" id="submit" class="container btn btn-primary" token="<%=secret_token%>" value='Upload'>
+</form>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
