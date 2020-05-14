@@ -36,6 +36,11 @@ const UserSchema = new Schema({
     required : false,
     
   },
+  imagelink:{
+    type : String,
+    required : false,
+    
+  },
     product:[{
       category:{
         type:mongoose.Schema.Types.ObjectId,
