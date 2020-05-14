@@ -44,9 +44,9 @@
                 <div class="col-lg-12">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                          <span class="input-group-text" id="basic-addon1">Category</span>
+                          <span class="input-group-text" id="categoryinp">Category</span>
                         </div>
-                        <input type="text" class="form-control" list="categoryoption" id="category"  placeholder="Category" aria-label="Username" aria-describedby="basic-addon1">
+                        <input type="text" class="form-control" list="categoryoption" id="category"  placeholder="Category" aria-label="Username" aria-describedby="categoryinp">
 
                         <datalist id="categoryoption">
                           <% Category.forEach(function(c){ %>
@@ -59,9 +59,9 @@
                 <div class="col-lg-12">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                          <span class="input-group-text" id="basic-addon1">Sub Category</span>
+                          <span class="input-group-text" id="subcategoryinp">Sub Category</span>
                         </div>
-                        <input type="text" class="form-control" id="subcategory"  placeholder="Sub-Category" aria-label="Username" aria-describedby="basic-addon1">
+                        <input type="text" class="form-control" id="subcategory"  placeholder="Sub-Category" aria-label="Username" aria-describedby="subcategoryinp">
                       </div>
                 </div>
             </div>
@@ -106,6 +106,15 @@
   <script>      
       console.log("inside category")
       $(document).ready(function(){
+
+    $('#category').keyup(function(){
+        $(this).val($(this).val().toUpperCase());
+    });
+
+    $('#subcategory').keyup(function(){
+        $(this).val($(this).val().toUpperCase());
+    });
+
         $('#addcategory').click(function(e) {
           e.preventDefault();
           var category = ($('#category').val());

@@ -77,6 +77,10 @@
 
         
       $(document).ready(function(){
+
+        $('#brandname').keyup(function(){
+        $(this).val($(this).val().toUpperCase());
+    });
           
         $('#addbrand').click(function(e) {
           e.preventDefault();
