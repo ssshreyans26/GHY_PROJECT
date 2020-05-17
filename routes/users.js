@@ -17,6 +17,8 @@ router.get('/customer',function(req,res,next){
   })  
 })
 
-
+router.get('/logout',function(req,res,next){
+  res.redirect('/home');
+})
 
 module.exports = router;
