@@ -14,8 +14,7 @@ router.get('/customer',function(req,res,next){
       res.render('customer',{brand:brand,product:product})
       // res.send({product})
     })
-  })
-  
+  })  
 })
 
 

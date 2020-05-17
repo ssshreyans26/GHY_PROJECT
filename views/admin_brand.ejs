@@ -37,7 +37,7 @@
       <input type="text" name="brandname" class="form-control" id="brandname">
     </div>
     
-  <button type="submit" class="container btn btn-primary" id="addbrand" style="margin-top: 2%">Add Brand</button>
+  <button type="submit" class="container btn btn-primary" data-token="<%=secret_token%>" id="addbrand" style="margin-top: 2%">Add Brand</button>
 </form>
   <!-- <tr style="display: none;" id="addedbrandrow">
     <th scope="row">1</th>
@@ -81,11 +81,11 @@
         $('#brandname').keyup(function(){
         $(this).val($(this).val().toUpperCase());
     });
-          
+        
         $('#addbrand').click(function(e) {
           e.preventDefault();
           var brandname = ($('#brandname').val());
-          
+          var secret_token = $('#addbrand').data("token")  
         $.ajax({
           type: "POST",
           url: '/adminpanel/brand' ,
