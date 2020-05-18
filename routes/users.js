@@ -28,7 +28,7 @@ router.post('/available',async(req,res,next)=>{
     var available = []
     vendor.forEach(element => {
       (element.product).forEach(product => {
-        if(product.category==req.body.cname&&product.subcategory==req.body.sname&&product.brand==req.body.bname){
+        if(product.category==req.body.cid&&product.subcategory==req.body.sid&&product.brand==req.body.bid){
           
           available.push(vendor)
           
@@ -37,7 +37,7 @@ router.post('/available',async(req,res,next)=>{
       });
       
     });
-    res.send(available)
+    res.render('vendorresult',{vendor,vendor})
   })
 
 
