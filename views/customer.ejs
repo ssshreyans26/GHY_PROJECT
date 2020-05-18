@@ -115,10 +115,8 @@
           $('#usersearch').click(function(e) {
           e.preventDefault();
           var cname = $("#categoryoption option:selected").data("cname");
-          var sname = $("#subcategory").val();
-          var bname = $("#brand").val();
-
-          console.log(bname);
+          var sname = $("#subcategoryoption").val();
+          var bname = $("#brandoption").val();
         $.ajax({
           type: "POST",
           url: '/home/available' ,
