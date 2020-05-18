@@ -11,7 +11,7 @@
     <title>Admin(Vendor Verification)</title>
   </head>
   <body class="p-3 mb-2 bg-light text-dark">
-  	<!----------------------------NAVBAR------------------------------------->
+    <!----------------------------NAVBAR------------------------------------->
 
 <!------------------Category--------------------------->
 <div class="container text-center" style="margin-top: 2%"> 
@@ -29,10 +29,14 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text" id="basic-addon1">Category</span>
                         </div>
-                        <input type="text" class="form-control" list="category" name="category" placeholder="Category">
+                        <select type="text" id="categoryoption" class="form-control" list="category" name="category" placeholder="Category">
                         <datalist id="category">
-                          <option class="container" value="Electronics"/>
+                          <option class="container"></option>
+                          <% product.forEach(function(p){ %>
+                          <option class="container" data-cname="<%=p.categoryname%>" data-cid="<%=p._id%>"><%=p.categoryname%></option>
+                            <% }); %>
                         </datalist>
+                      </select>
                       </div>
                 </div>
                 <div class="col-lg-12">
@@ -40,10 +44,10 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text" id="basic-addon1">Subcategory</span>
                         </div>
-                        <input type="text" class="form-control" list="subcategory" name="subcategory" placeholder="Sub-Category">
+                        <input type="text" id="subcategoryoption" class="form-control" list="subcategory" name="subcategory" placeholder="Sub-Category">
                         <datalist id="subcategory">
-                          <option class="container" value="Phone"/>
-                        </datalist>
+                          <option class="container" value=""/>
+                        </datalist> 
                       </div>
                 </div>
                 <div class="col-lg-12">
@@ -51,12 +55,15 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text" id="basic-addon1">Brand</span>
                         </div>
-                        <input type="text" class="form-control" list="brand" name="brand" placeholder="Brand">
+                        <input type="text" id="brandoption" class="form-control" list="brand" name="brand" placeholder="Brand">
                         <datalist id="brand">
-                          <option class="container" value="Huwaei"/>
+                          <% brand.forEach(function(b){ %>
+                          <option data-bname="<%=b.brandname%>" class="container"><%=b.brandname%></option>
+                            <% }); %>
                         </datalist>
                       </div>
                 </div>
+                <!------------------------------------------------
                 <div class="col-lg-12">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -66,16 +73,81 @@
                       </div>
                 </div>
             </div>
-            <button class="btn btn-primary container" style="margin-top: 2%">Search</button>
+            ----------------------->
+            <button id="usersearch" class="btn btn-primary container" style="margin-top: 2%">Search</button>
           </div>
         </form>
     </div>
-
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+
+    <script>
+        
+        $(document).ready(function () {
+          $("#categoryoption").change(function () {
+            var cid = $("#categoryoption option:selected").data("cid");
+            console.log(cid);
+
+            $('#subcategory').empty();
+            <% product.forEach(function(p){ %>
+              pid="<%=p._id%>";
+              if (pid == cid) {
+                <%p.subcategory.forEach(function(s){%>
+                  sname="<%=s.subcategoryname%>";
+                  console.log(sname);
+                  $('#subcategory').append('<option class="container" value=' + sname + '/>');
+                  <%}); %>
+              }
+            <% }); %>
+          }); 
+
+
+          $('#usersearch').click(function(e) {
+          e.preventDefault();
+          var cname = $("#categoryoption option:selected").data("cname");
+          var sname = $("#subcategoryoption").val();
+          var bname = $("#brandoption").val();
+        $.ajax({
+          type: "POST",
+          url: '/home/available' ,
+          contentType: "application/json",
+          processData: false,
+            data:  JSON.stringify({cname : cname,sname : sname,bname : bname}),
+            success: function(data) {
+              console.log(data)
+          }
+      }).done(function (data) {
+          console.log("OK");
+
+      }).fail(function ( jqXHR, textStatus, errorThrown ) {
+          console.log(jqXHR);
+          console.log(textStatus);
+          console.log(errorThrown);
+        });
+      });
+
+
+
+
+        });
+
+    </script>
+
+
+
+
+
+
+
   </body>
 </html>
