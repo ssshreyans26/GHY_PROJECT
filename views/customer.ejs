@@ -58,7 +58,7 @@
                         <input type="text" id="brandoption" class="form-control" list="brand" name="brand" placeholder="Brand">
                         <datalist id="brand">
                           <% brand.forEach(function(b){ %>
-                          <option data-bname="<%=b.brandname%>" class="container"><%=b.brandname%></option>
+                          <option data-bname="<%=b.brandname%>" bid="<%=b._id%>" class="container"><%=b.brandname%></option>
                             <% }); %>
                         </datalist>
                       </div>
@@ -104,8 +104,9 @@
               if (pid == cid) {
                 <%p.subcategory.forEach(function(s){%>
                   sname="<%=s.subcategoryname%>";
+                  sid = "<%=s._id%>"
                   console.log(sname);
-                  $('#subcategory').append('<option class="container" value=' + sname + '/>');
+                  $('#subcategory').append('<option data-sid='+ sid + 'class="container" value=' + sname + '/>');
                   <%}); %>
               }
             <% }); %>
@@ -117,17 +118,19 @@
           var cname = $("#categoryoption option:selected").data("cname");
           var sname = $("#subcategoryoption").val();
           var bname = $("#brandoption").val();
+
         $.ajax({
           type: "POST",
           url: '/home/available' ,
           contentType: "application/json",
           processData: false,
-            data:  JSON.stringify({cname : cname,sname : sname,bname : bname}),
+            data:  JSON.stringify({cid : cid,sid : sid,bid : bid}),
             success: function(data) {
               console.log(data)
           }
       }).done(function (data) {
           console.log("OK");
+          console.log(data)
 
       }).fail(function ( jqXHR, textStatus, errorThrown ) {
           console.log(jqXHR);

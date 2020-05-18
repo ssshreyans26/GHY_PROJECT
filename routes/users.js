@@ -23,22 +23,26 @@ router.get('/logout',function(req,res,next){
 })
 
 router.post('/available',async(req,res,next)=>{
+  //console.log(req.body.cname)
   UserModel.find((err,vendor)=>{
     var available = []
     vendor.forEach(element => {
       (element.product).forEach(product => {
-        if(product.category==""&&product.subcategory==""&&product.brand==""){
+        if(product.category==req.body.cname&&product.subcategory==req.body.sname&&product.brand==req.body.bname){
           
           available.push(vendor)
-          break;
+          
         }
         
       });
       
     });
+    res.send(available)
   })
 
 
 })
 
 module.exports = router;
+
+
