@@ -7,6 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css">
 
     <title>Admin(Vendor Verification)</title>
   </head>
@@ -75,6 +76,30 @@
           </div>
         </form>
     </div>
+    <div class="table-responsive container ">
+      <table id="myTable" class="display table table-bordered thead-dark" width="100%" >  
+              <thead>  
+                <tr>  
+                  <th>ENO</th>  
+                  <th>StoreName</th>  
+                  <th>Phone number</th>  
+                  <th>E-mail address</th>  
+                  <th>Photos</th> 
+                </tr>  
+              </thead>  
+              <tbody>  
+                <tr>  
+                  <td>001</td>  
+                  <td>Anusha</td>  
+                  <td>India</td>  
+                  <td>10000</td>
+                  <td>BLAH</td>  
+                </tr>  
+                
+              </tbody>  
+            </table>  
+          </div>
+      
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -87,10 +112,17 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"></script>
+    <script type="text/javascript" 
 
+    src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" 
+    
+    src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    
     <script>
         
         $(document).ready(function () {
+          $('#myTable').dataTable();
           $("#categoryoption").change(function () {
             var cid = $("#categoryoption option:selected").data("cid");
 
