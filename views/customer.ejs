@@ -87,14 +87,8 @@
                   <th>Photos</th> 
                 </tr>  
               </thead>  
-              <tbody>  
-                <tr>  
-                  <td><></td>  
-                  <td><></td>  
-                  <td><></td>  
-                  <td><></td>
-                  <td><></td>  
-                </tr>  
+              <tbody id="available-vendor">  
+  
                 
               </tbody>  
             </table>  
@@ -153,7 +147,12 @@
           processData: false,
             data:  JSON.stringify({cid : cid,sid : sid,bid : bid}),
             success: function(data) {
-              console.log(data)
+              console.log(typeof data[0])
+            
+              data[0].forEach(element => {
+                console.log(element)
+                $('#available-vendor tr:last').after("<tr> <td>"+"abc"+"</td><td>"+element.storename+"</td> <td>"+element.phoneno + "</td> <td>"+element.email+"</td><td>"+element.imagelink+"</td></tr>  ")
+              });
           }
       }).done(function (data) {
           console.log("OK");

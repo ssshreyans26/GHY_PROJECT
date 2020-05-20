@@ -42,7 +42,7 @@ router.post('/available',async(req,res,next)=>{
       
     });
 
-    res.send({available})
+    res.send(available)
   })
 })
 
