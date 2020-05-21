@@ -120,7 +120,7 @@
     <script>
         
         $(document).ready(function () {
-          $('#myTable').dataTable();
+          
           $("#categoryoption").change(function () {
             var cid = $("#categoryoption option:selected").data("cid");
 
@@ -147,7 +147,7 @@
         $.ajax({
           type: "POST",
           url: '/home/available' ,
-          contentType: "application/json",
+          contentType: "application/json",  
           processData: false,
             data:  JSON.stringify({cid : cid,sid : sid,bid : bid}),
             success: function(data) {
@@ -156,8 +156,9 @@
               data.forEach(element => {
                 console.log(element)
                 $('#available-vendor tr:last').after("<tr> <td>"+"abc"+"</td><td>"+element.storename+"</td> <td>"+element.phoneno + "</td> <td>"+element.email+"</td><td>"+element.imagelink+"</td></tr>  ")
+                $('#myTable').dataTable();
               });
-              $('#myTable').dataTable();
+              
           }
       }).done(function (data) {
           console.log("OK");
