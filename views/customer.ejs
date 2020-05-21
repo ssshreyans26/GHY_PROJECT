@@ -89,7 +89,11 @@
               </thead>  
               <tbody id="available-vendor">  
   
-                
+                <td>ENO</td>  
+                <td>StoreName</td>  
+                <td>Phone number</td>  
+                <td>E-mail address</td>  
+                <td>Photos</td> 
               </tbody>  
             </table>  
           </div>
@@ -149,10 +153,11 @@
             success: function(data) {
               console.log(typeof data[0])
             
-              data[0].forEach(element => {
+              data.forEach(element => {
                 console.log(element)
                 $('#available-vendor tr:last').after("<tr> <td>"+"abc"+"</td><td>"+element.storename+"</td> <td>"+element.phoneno + "</td> <td>"+element.email+"</td><td>"+element.imagelink+"</td></tr>  ")
               });
+              $('#myTable').dataTable();
           }
       }).done(function (data) {
           console.log("OK");

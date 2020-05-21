@@ -35,7 +35,7 @@ router.post('/available',async(req,res,next)=>{
     vendor.forEach(element => {
       (element.product).forEach(product => {
         if(product.category==req.body.cid&&product.subcategory==req.body.sid&&product.brand==req.body.bid){          
-          available.push(vendor)          
+          available.push(element)          
         }
         
       });
