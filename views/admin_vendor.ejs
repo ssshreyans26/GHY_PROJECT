@@ -62,8 +62,8 @@
       <td><%=user.storename%></td>
       <td><%=user.phoneno%></td>
         
-      <td><a class="btn btn-primary"  role="button" id="ACCEPT" data="<%=user._id%>">Accept</a></td>
-      <td><a class="btn btn-danger"  role="button"   id="REJECT" data="<%=user._id%>">Decline</a></td>
+      <td><a class="btn btn-primary"  role="button" token="<%=secret_token%>" id="ACCEPT" data="<%=user._id%>">Accept</a></td>
+      <td><a class="btn btn-danger"  role="button"  token="<%=secret_token%>" id="REJECT" data="<%=user._id%>">Decline</a></td>
     </tr>
   </form>
   <% } %>
@@ -117,14 +117,16 @@
 
         
       $(document).ready(function(){
-        function approval(approval, userid){
+        function approval(approval, userid,token){
          console.log(approval)
+         
+         console.log(token)
         $.ajax({
           type: "POST",
           url: '/adminpanel/vendor' ,
           contentType: "application/json",
           processData: false,
-            data:  JSON.stringify({userid : userid,approval:approval,secret_token:secret_token}),
+            data:  JSON.stringify({userid : userid,approval:approval,secret_token:token}),
             success: function(data) {
               console.log(data)
               $('#'+userid).remove()
@@ -146,13 +148,15 @@
     }
     $( "#ACCEPT" ).click(function() {
       var userid =  $("#ACCEPT").attr("data");
-      approval("1",userid)  
+      var token =  $("#ACCEPT").attr("token")
+      approval("1",userid,token)  
         console.log("hey")
         
   });
   $( "#REJECT" ).click(function() {
     var userid =  $("#REJECT").attr("data");
-            approval("0",userid) 
+    var token =  $("#REJECT").attr("token")        
+    approval("0",userid,token) 
         
   });         
 })
