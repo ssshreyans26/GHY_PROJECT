@@ -76,7 +76,7 @@
           </div>
         </form>
     </div>
-    <div class="table-responsive container ">
+    <div class="table-responsive container " style="margin-top: 2%;">
       <table id="myTable" class="display table table-bordered thead-dark" width="100%" >  
               <thead>  
                 <tr>  
@@ -87,7 +87,7 @@
                   <th>Photos</th> 
                 </tr>  
               </thead>  
-              <tbody id="available-vendor">  
+              <tbody id="available-vendor">
   
                 <td>ENO</td>  
                 <td>StoreName</td>  
@@ -97,6 +97,8 @@
               </tbody>  
             </table>  
           </div>
+
+<div>
       
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -154,8 +156,8 @@
               console.log(typeof data[0])
             
               data.forEach(element => {
-                console.log(element)
-                $('#available-vendor tr:last').after("<tr> <td>"+"abc"+"</td><td>"+element.storename+"</td> <td>"+element.phoneno + "</td> <td>"+element.email+"</td><td>"+element.imagelink+"</td></tr>  ")
+                $('#available-vendor tr:last').after("<tr> <td>"+"abc"+"</td><td>"+element.storename+"</td> <td>"+element.phoneno + "</td> <td>"+element.email+"</td><td><a class='btn btn-primary' href="+element.imagelink+" role='button'>Photos</a></td></tr>");
+                console.log(element.imagelink);
                 $('#myTable').dataTable();
               });
               
